@@ -14,11 +14,12 @@ def start():
     player_count = int(request.form["players"])
     game_time = int(request.form["time"]) * 60  # Convert minutes to seconds
 
+    # Store game settings in the session
     session["player_count"] = player_count
     session["roles"] = assign_roles(player_count)
     session["current_player"] = 0
     session["start_time"] = time.time()
-    session["game_time"] = game_time
+    session["game_time"] = game_time  # Store game time in seconds
     return redirect(url_for("show_role"))
 
 @app.route("/show_role")
@@ -40,6 +41,7 @@ def show_role():
 
 @app.route("/results")
 def results():
+    # Retrieve game_time from the session
     game_time = session.get("game_time", 300)  # Default to 300 seconds (5 minutes)
     return render_template("results.html", game_time=game_time)
 

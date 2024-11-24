@@ -3,41 +3,42 @@
 <head>
     <title>Spy Game</title>
     <script>
-        // Function to handle countdown
         document.addEventListener("DOMContentLoaded", function() {
-            let timer = {{ game_time | safe }}; // Countdown duration in seconds
+            // Fetch the timer duration from the data-timer attribute
+            const timerElement = document.getElementById("countdown");
+            let timer = parseInt(timerElement.getAttribute("data-timer"), 10); // Parse as an integer
 
             function startCountdown() {
-                const countdownElement = document.getElementById("countdown");
                 const interval = setInterval(() => {
-                    // Convert timer to minutes and seconds
+                    // Convert the timer to minutes and seconds
                     const minutes = Math.floor(timer / 60);
                     const seconds = timer % 60;
 
-                    // Update countdown display
-                    countdownElement.textContent = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+                    // Update the timer display
+                    timerElement.textContent = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
 
-                    // Decrease timer
+                    // Decrement the timer
                     timer--;
 
                     if (timer < 0) {
                         // Stop the countdown
                         clearInterval(interval);
 
-                        // Show alert and end the game
+                        // Show an alert and end the game
                         alert("Time's up! The game is over!");
-                        countdownElement.textContent = "Game Over!";
+                        timerElement.textContent = "Game Over!";
                     }
                 }, 1000); // Update every second
             }
 
-            startCountdown(); // Start the countdown
+            startCountdown(); // Start the countdown when the page loads
         });
     </script>
 </head>
 <body>
     <h1>Spy Game</h1>
-    <p>Time remaining: <span id="countdown"></span></p>
+    <!-- Pass the game_time dynamically as a data attribute -->
+    <p>Time remaining: <span id="countdown" data-timer="{{ game_time }}"></span></p>
     <p>Discuss and guess who the Spy is!</p>
     <form action="/">
         <button type="submit">Restart Game</button>
