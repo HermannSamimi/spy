@@ -14,30 +14,29 @@ def start():
     player_count = int(request.form["players"])
     game_time = int(request.form["time"]) * 60  # Convert minutes to seconds
 
-    # Store game settings in the session
     session["player_count"] = player_count
     session["roles"] = assign_roles(player_count)
     session["current_player"] = 0
     session["start_time"] = time.time()
-    session["game_time"] = game_time  # Store game time in seconds
+    session["game_time"] = game_time  # Store game time
     return redirect(url_for("show_role"))
 
 @app.route("/show_role")
 def show_role():
     current_player = session["current_player"]
-    
-    # Check if the game time has elapsed
-    elapsed_time = time.time() - session["start_time"]
-    if elapsed_time > session["game_time"]:
-        flash("Game over! Time's up!")
-        return redirect(url_for("results"))
 
     if current_player >= session["player_count"]:
-        return redirect(url_for("results"))
+        # All players have seen their roles; move to the timer
+        return redirect(url_for("game_timer"))
 
     role = session["roles"][current_player]
     session["current_player"] += 1
     return render_template("role.html", role=role, player=current_player + 1)
+
+@app.route("/game_timer")
+def game_timer():
+    game_time = session.get("game_time", 300)  # Default to 5 minutes
+    return render_template("game_timer.html", game_time=game_time)
 
 @app.route("/results")
 def results():
