@@ -66,3 +66,21 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spy Game</title>
+</head>
+<body>
+    <h1>Welcome to the Spy Game!</h1>
+    <form action="/start" method="post">
+        <label for="players">Number of Players:</label>
+        <input type="number" name="players" id="players" required min="3">
+        <br>
+        <label for="time">Game Time (minutes):</label>
+        <input type="number" name="time" id="time" required min="1">
+        <br>
+        <button type="submit">Start Game</button>
+    </form>
+</body>
+</html>

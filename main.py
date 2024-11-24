@@ -1,34 +1,52 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import random
-import os
+import time
 
 app = Flask(__name__)
-
-# List of words
-WORDS = ["apple", "banana", "cherry", "dragonfruit", "elephant", "falcon"]
+app.secret_key = "your_secret_key"  # Secure session data
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
+@app.route("/start", methods=["POST"])
+def start():
+    player_count = int(request.form["players"])
+    game_time = int(request.form["time"]) * 60  # Convert minutes to seconds
+    session["player_count"] = player_count
+    session["words"] = assign_words(player_count)
+    session["current_player"] = 0
+    session["start_time"] = time.time()
+    session["game_time"] = game_time
+    return redirect(url_for("show_word"))
+
+@app.route("/show_word")
+def show_word():
+    current_player = session["current_player"]
+    
+    # Check if the game time has elapsed
+    elapsed_time = time.time() - session["start_time"]
+    if elapsed_time > session["game_time"]:
+        flash("Game over! Time's up!")
+        return redirect(url_for("results"))
+
+    if current_player >= session["player_count"]:
+        return redirect(url_for("results"))
+
+    word = session["words"][current_player]
+    session["current_player"] += 1
+    return render_template("word.html", word=word, player=current_player + 1)
+
+@app.route("/results")
+def results():
+    return render_template("results.html")
+
+def assign_words(player_count):
+    common_word = "Apple"  # Change dynamically if needed
+    words = [common_word] * (player_count - 1)
+    words.append("Spy")
+    random.shuffle(words)
+    return words
+
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # Default to 5000 if PORT is not set
-    app.run(host="0.0.0.0", port=port, debug=True)
-
-@app.route('/start-game', methods=['POST'])
-def start_game():
-    data = request.json
-    num_players = int(data['num_players'])
-
-    if num_players < 2:
-        return jsonify({"error": "Number of players must be at least 2"}), 400
-
-    word = random.choice(WORDS)  # Randomly select a word
-    spy_index = random.randint(0, num_players - 1)  # Randomly select the spy
-
-    players = [{"id": i + 1, "text": word if i != spy_index else "You are the Spy"} for i in range(num_players)]
-
-    return jsonify({"players": players})
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
