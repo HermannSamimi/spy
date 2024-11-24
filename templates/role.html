@@ -14,14 +14,13 @@
                 let timer = parseInt(countdownElement.getAttribute("data-timer"), 10);
 
                 function startCountdown() {
-                    timerContainer.classList.remove("hidden"); // Show the timer
+                    timerContainer.classList.remove("hidden");
 
                     const interval = setInterval(() => {
                         const minutes = Math.floor(timer / 60);
                         const seconds = timer % 60;
 
                         countdownElement.textContent = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
-
                         timer--;
 
                         if (timer < 0) {

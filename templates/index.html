@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="/static/style.css">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Retrieve saved values from localStorage
             const savedPlayers = localStorage.getItem("players");
             const savedTime = localStorage.getItem("time");
 
@@ -16,7 +15,6 @@
                 document.getElementById("time").value = savedTime;
             }
 
-            // Save values to localStorage when form is submitted
             document.getElementById("gameForm").addEventListener("submit", function () {
                 const players = document.getElementById("players").value;
                 const time = document.getElementById("time").value;
@@ -29,7 +27,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to Spy Game!</h1>
+        <h1>Spy Game</h1>
         <p>Enter the number of players and game time to start.</p>
         <form id="gameForm" action="/start" method="post">
             <label for="players">Number of Players:</label>
