@@ -24,14 +24,17 @@ def start():
 @app.route("/show_role")
 def show_role():
     current_player = session["current_player"]
+    player_count = session["player_count"]
 
-    if current_player >= session["player_count"]:
-        # All players have seen their roles; move to the timer
-        return redirect(url_for("game_timer"))
+    if current_player >= player_count:
+        # All players have seen their roles; timer will start on the same page
+        return render_template(
+            "role.html", role=None, player=None, all_roles_seen=True, game_time=session["game_time"]
+        )
 
     role = session["roles"][current_player]
     session["current_player"] += 1
-    return render_template("role.html", role=role, player=current_player + 1)
+    return render_template("role.html", role=role, player=current_player + 1, all_roles_seen=False)
 
 @app.route("/game_timer")
 def game_timer():
