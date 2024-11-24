@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spy Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .player {
+            margin: 5px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spy Game</h1>
+    <label for="numPlayers">Select Number of Players:</label>
+    <select id="numPlayers">
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5" selected>5</option>
+        <option value="6">6</option>
+    </select>
+    <button id="startGame">Start Game</button>
+    
+    <div id="results" style="margin-top: 20px;">
+        <h2>Results:</h2>
+        <div id="players"></div>
+    </div>
+
+    <script>
+        document.getElementById('startGame').addEventListener('click', async () => {
+            const numPlayers = document.getElementById('numPlayers').value;
+
+            const response = await fetch('/start-game', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ num_players: numPlayers }),
+            });
+
+            const resultsDiv = document.getElementById('players');
+            resultsDiv.innerHTML = '';
+
+            if (response.ok) {
+                const data = await response.json();
+                data.players.forEach(player => {
+                    const div = document.createElement('div');
+                    div.className = 'player';
+                    div.textContent = `Player ${player.id}: ${player.text}`;
+                    resultsDiv.appendChild(div);
+                });
+            } else {
+                const error = await response.json();
+                alert(error.error || 'An error occurred');
+            }
+        });
+    </script>
+</body>
+</html>
