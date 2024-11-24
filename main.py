@@ -1,14 +1,19 @@
 from flask import Flask, render_template, request, jsonify
 import random
+import os
 
 app = Flask(__name__)
 
 # List of words
 WORDS = ["apple", "banana", "cherry", "dragonfruit", "elephant", "falcon"]
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))  # Default to 5000 if PORT is not set
+    app.run(host="0.0.0.0", port=port, debug=True)
 
 @app.route('/start-game', methods=['POST'])
 def start_game():
