@@ -2,18 +2,40 @@
 <html>
 <head>
     <title>Spy Game</title>
+    <script>
+        // Function to handle countdown
+        let timer = {{ game_time }}; // Countdown duration in seconds
+        function startCountdown() {
+            const countdownElement = document.getElementById("countdown");
+            const interval = setInterval(() => {
+                // Convert timer to minutes and seconds
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+
+                // Update countdown display
+                countdownElement.textContent = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+
+                // Decrease timer
+                timer--;
+
+                if (timer < 0) {
+                    // Stop the countdown
+                    clearInterval(interval);
+
+                    // Show alert and end the game
+                    alert("Time's up! The game is over!");
+                    countdownElement.textContent = "Game Over!";
+                }
+            }, 1000); // Update every second
+        }
+    </script>
 </head>
-<body>
-    <h1>Game Over</h1>
-    <p>Here are the roles:</p>
-    <ul>
-        {% for i in range(player_count) %}
-            <li>Player {{ i + 1 }}: {{ roles[i] }}</li>
-        {% endfor %}
-    </ul>
+<body onload="startCountdown()"> <!-- Start countdown when page loads -->
+    <h1>Spy Game</h1>
+    <p>Time remaining: <span id="countdown"></span></p>
     <p>Discuss and guess who the Spy is!</p>
     <form action="/">
-        <button type="submit">Play Again</button>
+        <button type="submit">Restart Game</button>
     </form>
 </body>
 </html>

@@ -40,7 +40,8 @@ def show_role():
 
 @app.route("/results")
 def results():
-    return render_template("results.html")
+    game_time = session.get("game_time", 300)  # Default to 5 minutes if not set
+    return render_template("results.html", game_time=game_time)
 
 def assign_roles(player_count):
     common_word = "Apple"  # Change dynamically if needed
