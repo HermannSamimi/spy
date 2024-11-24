@@ -2,64 +2,61 @@
 <html>
 <head>
     <title>Spy Game</title>
+    <link rel="stylesheet" href="/static/style.css">
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const countdownElement = document.getElementById("countdown");
             const timerContainer = document.getElementById("timer-container");
 
-            {% if all_roles_seen %}
-            // Timer logic if all roles are seen
-            let timer = parseInt(countdownElement.getAttribute("data-timer"), 10);
+            // Check if all roles are seen using a data attribute
+            const allRolesSeen = timerContainer.getAttribute("data-all-roles-seen") === "true";
 
-            function startCountdown() {
-                timerContainer.style.display = "block"; // Show the timer
+            if (allRolesSeen) {
+                let timer = parseInt(countdownElement.getAttribute("data-timer"), 10);
 
-                const interval = setInterval(() => {
-                    // Convert timer to minutes and seconds
-                    const minutes = Math.floor(timer / 60);
-                    const seconds = timer % 60;
+                function startCountdown() {
+                    timerContainer.classList.remove("hidden"); // Show the timer
 
-                    // Update countdown display
-                    countdownElement.textContent = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+                    const interval = setInterval(() => {
+                        const minutes = Math.floor(timer / 60);
+                        const seconds = timer % 60;
 
-                    // Decrease timer
-                    timer--;
+                        countdownElement.textContent = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
 
-                    if (timer < 0) {
-                        // Stop the countdown
-                        clearInterval(interval);
+                        timer--;
 
-                        // Show alert and indicate game over
-                        alert("Time's up! The game is over!");
-                        countdownElement.textContent = "Game Over!";
-                    }
-                }, 1000); // Update every second
+                        if (timer < 0) {
+                            clearInterval(interval);
+                            alert("Time's up! The game is over!");
+                            countdownElement.textContent = "Game Over!";
+                        }
+                    }, 1000); // Update every second
+                }
+
+                startCountdown();
             }
-
-            startCountdown();
-            {% endif %}
         });
     </script>
 </head>
 <body>
-    <h1>Spy Game</h1>
+    <div class="container">
+        <h1>Spy Game</h1>
 
-    {% if not all_roles_seen %}
-        <p>Player {{ player }}, your role is:</p>
-        <h2>{{ role }}</h2>
-        <form action="/show_role">
-            <button type="submit">Next Player</button>
+        {% if not all_roles_seen %}
+            <p>Player {{ player }}, your role is:</p>
+            <h2 style="color: #4CAF50;">{{ role }}</h2>
+            <form action="/show_role">
+                <button>Next Player</button>
+            </form>
+        {% endif %}
+
+        <div id="timer-container" class="hidden" data-all-roles-seen="{{ all_roles_seen | lower }}">
+            <p class="timer">Time remaining: <span id="countdown" data-timer="{{ game_time }}"></span></p>
+        </div>
+
+        <form action="/">
+            <button class="restart">Restart Game</button>
         </form>
-    {% else %}
-        <p>All players have seen their roles. The timer will now start!</p>
-    {% endif %}
-
-    <div id="timer-container" style="display: none;">
-        <p>Time remaining: <span id="countdown" data-timer="{{ game_time }}"></span></p>
     </div>
-
-    <form action="/">
-        <button type="submit">Restart Game</button>
-    </form>
 </body>
 </html>
