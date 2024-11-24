@@ -5,6 +5,12 @@
 </head>
 <body>
     <h1>Game Over</h1>
+    <p>Here are the roles:</p>
+    <ul>
+        {% for i in range(player_count) %}
+            <li>Player {{ i + 1 }}: {{ roles[i] }}</li>
+        {% endfor %}
+    </ul>
     <p>Discuss and guess who the Spy is!</p>
     <form action="/">
         <button type="submit">Play Again</button>
