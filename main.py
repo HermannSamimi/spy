@@ -13,15 +13,16 @@ def index():
 def start():
     player_count = int(request.form["players"])
     game_time = int(request.form["time"]) * 60  # Convert minutes to seconds
+
     session["player_count"] = player_count
-    session["words"] = assign_words(player_count)
+    session["roles"] = assign_roles(player_count)
     session["current_player"] = 0
     session["start_time"] = time.time()
     session["game_time"] = game_time
-    return redirect(url_for("show_word"))
+    return redirect(url_for("show_role"))
 
-@app.route("/show_word")
-def show_word():
+@app.route("/show_role")
+def show_role():
     current_player = session["current_player"]
     
     # Check if the game time has elapsed
@@ -33,20 +34,20 @@ def show_word():
     if current_player >= session["player_count"]:
         return redirect(url_for("results"))
 
-    word = session["words"][current_player]
+    role = session["roles"][current_player]
     session["current_player"] += 1
-    return render_template("word.html", word=word, player=current_player + 1)
+    return render_template("role.html", role=role, player=current_player + 1)
 
 @app.route("/results")
 def results():
     return render_template("results.html")
 
-def assign_words(player_count):
+def assign_roles(player_count):
     common_word = "Apple"  # Change dynamically if needed
-    words = [common_word] * (player_count - 1)
-    words.append("Spy")
-    random.shuffle(words)
-    return words
+    roles = [common_word] * player_count
+    spy_index = random.randint(0, player_count - 1)  # Randomly select the Spy
+    roles[spy_index] = "Spy"
+    return roles
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
