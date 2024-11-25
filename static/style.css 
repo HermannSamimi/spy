@@ -1,108 +1,95 @@
-/* Global styles */
+/* General Styles */
 body {
-    font-family: 'Comic Sans MS', 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background: url('https://i.imgur.com/TY6sLo6.jpg') no-repeat center center fixed;
-    background-size: cover;
+    font-family: 'Arial', sans-serif;
+    background-color: #D9D9D9; /* Light gray background */
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    color: white;
+    height: 100vh;
 }
 
-/* Container styling */
-.container {
-    max-width: 95%;
-    width: 600px;
-    background: linear-gradient(to bottom, #f9f1dc, #f2d3b7);
-    border-radius: 30px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-    padding: 30px;
-    margin: 1.5em auto;
+/* App Background */
+.app-background {
+    width: 329px;
+    height: 536px;
+    background: #D9D9D9;
+    border-radius: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 20px;
     text-align: center;
 }
 
-/* Button styling */
-button {
-    background: linear-gradient(to bottom, #ffb347, #ffcc33);
-    color: white;
-    padding: 20px 40px;
-    border: none;
-    border-radius: 15px;
-    font-size: 1.5em;
+/* Title (جاسوس) */
+.title {
+    font-size: 2rem;
+    color: #333;
     font-weight: bold;
-    cursor: pointer;
+    margin-bottom: 30px;
+}
+
+/* Button */
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    width: 150px;
+    height: 50px;
+    background: #007AFF;
+    border-radius: 25px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s, box-shadow 0.2s;
-    margin-top: 10px;
+    cursor: pointer;
 }
 
-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
+.button-icon {
+    font-size: 1.2rem;
+    color: white;
+    margin-right: 10px;
 }
 
-button:active {
-    transform: translateY(2px);
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Timer styling */
-.timer {
-    font-size: 3rem;
+.button-text {
+    font-size: 1.2rem;
+    color: white;
     font-weight: bold;
-    color: #ff5722;
+}
+
+/* Input Container */
+.input-container {
     margin: 20px 0;
 }
 
-/* Input styling */
-label {
-    display: block;
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    color: #5a3d2b;
+.input-box {
+    background: #fff;
+    border-radius: 15px;
+    padding: 10px 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+.label {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.input-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 input {
-    padding: 15px;
-    border-radius: 15px;
-    border: 2px solid #ffb347;
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    width: 90%;
+    border: none;
+    font-size: 1rem;
+    color: #007AFF;
+    outline: none;
+    flex-grow: 1;
+    margin-right: 10px;
+    text-align: right;
 }
 
-/* Restart Button */
-.restart {
-    background: linear-gradient(to bottom, #f24c4c, #e03e3e);
-    color: white;
-}
-
-.restart:hover {
-    background: linear-gradient(to bottom, #e03e3e, #c13232);
-}
-
-/* Mobile responsiveness */
-@media (max-width: 600px) {
-    button {
-        padding: 15px 30px;
-        font-size: 1.2em;
-    }
-
-    input {
-        padding: 12px;
-        font-size: 1.2em;
-    }
-
-    .container {
-        padding: 20px;
-        border-radius: 20px;
-    }
-
-    .timer {
-        font-size: 2.5rem;
-    }
+svg {
+    flex-shrink: 0;
 }
