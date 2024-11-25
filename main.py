@@ -5,9 +5,11 @@ import time
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Secure session data
 
+app = Flask(__name__)
+
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", time=time())
 
 @app.route("/start", methods=["POST"])
 def start():
