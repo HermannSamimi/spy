@@ -1,15 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import random
-import time
+from time import time  # Import the time function correctly
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Secure session data
 
-app = Flask(__name__)
-
 @app.route("/")
 def index():
-    return render_template("index.html", time=time())
+    return render_template("index.html", time=time())  # Correctly call the time() function
 
 @app.route("/start", methods=["POST"])
 def start():
@@ -19,7 +17,7 @@ def start():
     session["player_count"] = player_count
     session["roles"] = assign_roles(player_count)
     session["current_player"] = 0
-    session["start_time"] = time.time()
+    session["start_time"] = time()  # Use the time() function to get the current time
     session["game_time"] = game_time  # Store game time
     return redirect(url_for("show_role"))
 
