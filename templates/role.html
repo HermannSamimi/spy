@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Spy Game</title>
     <link rel="stylesheet" href="/static/style.css">
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const countdownElement = document.getElementById("countdown");
             const timerContainer = document.getElementById("timer-container");
 
@@ -36,18 +37,19 @@
         });
     </script>
 </head>
+
 <body>
     <div class="container">
         <h1>Spy Game</h1>
 
         {% if not all_roles_seen %}
-            <p>Player {{ player }}, your role is:</p>
-            <h2 style="color: #4CAF50;">{{ role }}</h2>
-            <form action="/show_role">
-                <button>Next Player</button>
-            </form>
+        <p>Player {{ player }}, your role is:</p>
+        <h2 style="color: #4CAF50;">{{ role }}</h2>
+        <form action="/show_role">
+            <button>Next Player</button>
+        </form>
         {% else %}
-            <p>All players have seen their roles. The timer will now start!</p>
+        <p>All players have seen their roles. The timer will now start!</p>
         {% endif %}
 
         <div id="timer-container" class="hidden" data-all-roles-seen="{{ all_roles_seen | lower }}">
@@ -59,4 +61,5 @@
         </form>
     </div>
 </body>
+
 </html>
